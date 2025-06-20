@@ -9,7 +9,7 @@ exporters:
     tls:
       insecure: true
  
-  logging:
+  debug:
 
 processors:
   batch:
@@ -19,4 +19,4 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [otlp, logging]
+      exporters: [otlp, debug]

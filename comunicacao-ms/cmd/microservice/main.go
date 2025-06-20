@@ -37,6 +37,7 @@ func initProvider(serviceName, collectorURL string) (func(context.Context) error
 
 	ctx, cancel := context.WithTimeout(ctx, time.Second)
 	defer cancel()
+	fmt.Println("Connecting to collector at:", collectorURL)
 	conn, err := grpc.DialContext(ctx, collectorURL,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 		grpc.WithBlock(),
@@ -44,7 +45,7 @@ func initProvider(serviceName, collectorURL string) (func(context.Context) error
 	if err != nil {
 		return nil, fmt.Errorf("failed to create gRPC connection to collector: %w", err)
 	}
-
+	fmt.Println("Connected to collector")
 	traceExporter, err := otlptracegrpc.New(ctx, otlptracegrpc.WithGRPCConn(conn))
 	if err != nil {
 		return nil, fmt.Errorf("failed to create trace exporter: %w", err)
